@@ -20,6 +20,7 @@ package com.tasktop.koans.java8.test;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Base64;
 
 import org.junit.Test;
@@ -31,19 +32,22 @@ import com.tasktop.koans.KoanRunner;
 public class AboutBase64 {
 
 	@Test
-	public void encodeToBase64() {
+	public void encodeToBase64() throws UnsupportedEncodingException {
 		byte[] encoded = Base64.getEncoder().encode("my-string".getBytes());
 
-		String myString = new String(new byte[] {}); // FIXME: create the string using the encoded bytes
+		String myString = Base64.getEncoder().encodeToString("my-string".getBytes("utf-8")); // FIXME: create the string using the encoded bytes
 		assertEquals("bXktc3RyaW5n", myString);
 	}
 
 	@Test
-	public void decodeFromBase64() {
+	public void decodeFromBase64() throws UnsupportedEncodingException {
 		// FIXME: Where do we get an encoded string that means "my-string"? One hint... look up!
-		byte[] decoded = Base64.getDecoder().decode("".getBytes());
+		byte[] encoded = Base64.getEncoder().encode("my-string".getBytes());
 
-		String myString = new String(decoded);
+		String my = Base64.getEncoder().encodeToString("my-string".getBytes("utf-8"));
+		byte[] decoded = Base64.getDecoder().decode(my.getBytes());
+
+		String myString = new String(decoded, "utf-8");
 		assertEquals("my-string", myString);
 	}
 
